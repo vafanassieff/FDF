@@ -1,23 +1,21 @@
 #include "fdf.h"
 
-typedef struct    data_s
+
+
+int main(int argc, char **argv)
 {
-	void          *mlx_ptr;
-	void          *mlx_win;
-}                 data_t;
-
-int main(void)
-{
-	data_t        data;
-	int i;
-
-	i = -10;
-	i = ft_abs(i);
-
+	t_data        data;
+	
+	if (argc != 2)
+	{
+		ft_putstr_fd(ERRARG, 2);
+		exit(1);
+	}
+	ft_putstr(argv[1]);
 	if ((data.mlx_ptr = mlx_init()) == NULL)
 		return (EXIT_FAILURE);
-	if ((data.mlx_win = mlx_new_window(data.mlx_ptr, 640, 480, "Hello world")) == NULL)
-		return (EXIT_FAILURE);
+	if ((data.mlx_win = mlx_new_window(data.mlx_ptr, 640, 480, argv[1])) == NULL)
+	return (EXIT_FAILURE);
 	mlx_loop(data.mlx_ptr);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/07 17:40:37 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/09 15:06:41 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,8 @@ typedef struct	s_map
 /*
  ** Oublie pas de les delete
  */
+
+int		**parse_file(char *file);
+void	print_error(char *error);
 
 #endif

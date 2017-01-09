@@ -14,7 +14,9 @@ NAME = fdf
 HEADER = fdf.h
 CC = gcc
 CFLAG = -Wall -Werror -Wextra
-SRCS = main.c
+SRCS = main.c \
+	   parse_file.c \
+	   utility.c
 OBJS = $(SRCS:.c=.o)
 INCLUDE = -I libft/includes -I ./minilibx_el_capitan
 LINCLUDE = -I libft/includes -L libft/ -lft -I ./minilibx_el_capitan \
@@ -32,6 +34,7 @@ $(NAME):
 	$(CC) $(CFLAG) -o $(NAME) $(LINCLUDE) $(OBJS)
 
 clean:
+	@$(CLEANLIB)
 	@rm -rf $(OBJS)
 
 fclean: clean

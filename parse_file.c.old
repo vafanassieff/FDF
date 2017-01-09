@@ -1,0 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
+/*   Updated: 2017/01/09 18:18:19 by vafanass         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf.h"
+
+static int		count_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+		++i;
+	return (i);
+}
+
+ void	aff_tabint(int *tab, int len)
+{
+	int	i;
+
+	i = 0;
+	while (len--)
+	{
+		ft_putnbr(tab[i]);
+		ft_putchar(' ');
+		i++;
+	}
+}
+
+void	aff_tabchar(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while (tab[++i] != NULL)
+		ft_putendl(tab[i]);
+}
+
+int	**split_to_map(char **split, int **map)
+{
+	int	*tmp;
+	int i;
+	int j;
+
+	j = 0;
+	i = count_tab(split);
+	tmp = malloc(sizeof(int) * count_tab(split));
+	while(i--)
+	{
+		tmp[j] = ft_atoi(split[j]);
+		j++;
+	}
+	map = malloc(sizeof(map) + 1);
+	map
+	aff_tabint(tmp, count_tab(split));
+	ft_putchar('\n');
+	return (map);
+}
+
+int	**parse_file(char *file)
+{
+	int		fd;
+	char	**split;
+	char	*line;
+	int		**map;
+
+	split = NULL;
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		print_error(ERRARG);
+	while (get_next_line(fd, &line) == 1)
+	{
+		split = ft_strsplit(line, ' ');
+		map = split_to_map(split, map);
+		free(line);
+	}
+	exit(1);
+	map = 0;
+	return (map);
+}

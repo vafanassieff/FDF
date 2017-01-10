@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/09 15:06:41 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/10 17:35:14 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ typedef struct	s_data
 	void		*mlx_win;
 }				t_data;
 
-typedef struct	s_map
+typedef struct	s_env
 {
-	char		**map;
+	int			**map;
 	int			x;
 	int			y;
-}				t_map;
+	int			line;
+	char		**array;
+}				t_env;
 
 /*
  ** Error Message
@@ -55,10 +57,13 @@ typedef struct	s_map
 # include <sys/uio.h>
 
 /*
- ** Oublie pas de les delete
+ ** Oublie pas de les delete les bails en trop
  */
 
-int		**parse_file(char *file);
+t_env	parse_file(char *file);
 void	print_error(char *error);
+int		count_tab(char **tab);
+void	aff_tabchar(char **tab);
+void	aff_tabint(int **tab, int x, int y);
 
 #endif

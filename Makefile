@@ -30,8 +30,8 @@ all: $(NAME)
 $(NAME):
 	@$(CLEANLIB)
 	@$(MAKELIB)
-	$(CC) -c $(CFLAG) -I fdf.h $(INCLUDE) $(SRCS) 
-	$(CC) $(CFLAG) -o $(NAME) $(LINCLUDE) $(OBJS)
+	@$(CC) -c $(CFLAG) -I fdf.h $(INCLUDE) $(SRCS) 
+	@$(CC) $(CFLAG) -o $(NAME) $(LINCLUDE) $(OBJS)
 
 clean:
 	@$(CLEANLIB)

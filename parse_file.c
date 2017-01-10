@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/09 19:39:24 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/10 17:47:36 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 int		count_line_file(char *file)
 {
-	int fd;
-	char *line;
-	int	result;
-
+	int		fd;
+	char	*line;
+	int		result;
 
 	result = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		print_error(ERRARG);
-	while(get_next_line(fd, &line) == 1)
+	while (get_next_line(fd, &line) == 1)
 	{
 		result++;
 		free(line);
@@ -31,39 +30,8 @@ int		count_line_file(char *file)
 	close(fd);
 	return (result);
 }
-int		count_tab(char **tab)
-{
-	int	i;
 
-	i = 0;
-	while (tab[i] != NULL)
-		++i;
-	return (i);
-}
-
-void	aff_tabchar(char **tab)
-{
-	int	i;
-
-	i = -1;
-	while (tab[++i])
-		ft_putendl(tab[i]);
-}
-
-void	aff_tabint(int *tab, int len)
-{
-	int	i;
-
-	i = 0;
-	while (len--)
-	{
-		ft_putnbr(tab[i]);
-		ft_putchar(' ');
-		i++;
-	}
-}
-
-int	*split_to_tmp(char **split)
+int		*split_to_tmp(char **split)
 {
 	int	*tmp;
 	int i;
@@ -72,7 +40,7 @@ int	*split_to_tmp(char **split)
 	j = 0;
 	i = count_tab(split);
 	tmp = malloc(sizeof(int) * count_tab(split));
-	while(i--)
+	while (i--)
 	{
 		tmp[j] = ft_atoi(split[j]);
 		j++;
@@ -80,55 +48,49 @@ int	*split_to_tmp(char **split)
 	return (tmp);
 }
 
-int		**array_to_int(char **array)
+
+// voir les leaks ici
+t_env	array_to_int(t_env env)
 {
-	int	**ret;
-	int	lenx;
-	int	leny;
 	int	*tmp;
 	int	i;
 
 	i = 0;
-	leny = count_tab(array);
-	while (i < leny)
+	env.map = malloc(sizeof(int**) * env.y);
+	while (i < env.y)
 	{
-		lenx = count_tab(ft_strsplit(array[i], ' '));
-		ret = malloc(sizeof(int**) * count_tab(array));
-		tmp = split_to_tmp(ft_strsplit(array[i], ' '));
-		aff_tabint(tmp, lenx);
-		ft_putchar('\n');
-		ret[i] = tmp;
+		env.x = count_tab(ft_strsplit(env.array[i], ' '));
+		tmp = split_to_tmp(ft_strsplit(env.array[i], ' '));
+		env.map[i] = malloc(sizeof(int*) * env.x);
+		env.map[i] = tmp;
 		i++;
 	}
-	ret = 0;
-	return (ret);	
+	return (env);
 }
 
-int		**parse_file(char *file)
+t_env	parse_file(char *file)
 {
 	int		fd;
-	char	**array;
 	char	*line;
 	int		count;
-	int		**map;
+	t_env	env;
 
 	count = 0;
-	array = malloc(sizeof(int**) * count_line_file(file) + 1);
+	env.y = count_line_file(file);
+	env.array = malloc(sizeof(int**) * env.y + 1);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		print_error(ERRARG);
 	while (get_next_line(fd, &line) == 1)
 	{
-		array[count] = malloc(sizeof(char*) * ft_strlen(line) + 1);
-		strcpy(array[count], line);
+		env.array[count] = malloc(sizeof(char*) * ft_strlen(line) + 1);
+		strcpy(env.array[count], line);
 		count++;
 		free(line);
 	}
 	close(fd);
-	array[count] = NULL;
-	//	aff_tabchar(array);
-	map = array_to_int(array);
-	exit(1);
-	map = 0;
-	return (map);
+	env.array[count] = NULL;
+	env = array_to_int(env);
+	free(env.array);
+	return (env);
 }

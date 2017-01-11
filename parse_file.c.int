@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 21:05:57 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/11 18:41:53 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,71 +31,48 @@ int		count_line_file(char *file)
 	return (result);
 }
 
-void	print_coord(t_env env)
+int		*split_to_tmp(char **split)
 {
-	int all;
-	int	i;
+	int	*tmp;
+	int i;
+	int j;
 
-	all = env.width * env.length;
-	i = 0;
-	ft_putendl("x y z   color");
-	while (i < all)
-	{
-		ft_putnbr(env.map[i].x);
-		ft_putchar(' ');
-		ft_putnbr(env.map[i].y);
-		ft_putchar(' ');
-		ft_putnbr(env.map[i].z);
-		ft_putchar(' ');
-		ft_putnbr(env.map[i].color);
-		ft_putchar('\n');
-		i++;
-	}
-}
-
-t_env	split_to_table(t_env env)
-{
-	t_point	tmp;
-	char	**split;
-	int		i;
-	int		j;
-	int		count;
-
-	i = 0;
-	count = 0;
-	if (!(env.map = malloc(sizeof(t_point) * env.size)))
+	j = 0;
+	i = count_tab(split);
+	if (!(tmp = malloc(sizeof(int) * count_tab(split))))
 		error(ERRALLOC);
-	while (i < env.width)
+	while (i--)
 	{
-		split = ft_strsplit(env.array[i], ' ');
-		j = 0;
-		while (j < env.length)
-		{
-			tmp.x = j;
-			tmp.y = i;
-			tmp.z = ft_atoi(split[j]);
-			tmp.color = 0x00FFFFFF; //Bosse sur un moyen de recup la couleur (z,couleur)
-			env.map[count] = tmp;
-			j++;
-			count++;
-		}
-		free_array(split);
-		i++;
+		tmp[j] = ft_atoi(split[j]);
+		j++;
 	}
-	return (env);
+	free_array(split);
+	return (tmp);
 }
 
 t_env	array_to_int(t_env env)
 {
-	char **split;
+	int		*tmp;
+	char	**split;
+	int		i;
+	int		x_tmp;
 
-	split = ft_strsplit(env.array[0], ' ');
-	env.length = count_tab(split);
-	free_array(split);
-	env.size = env.length * env.width;
-	env = split_to_table(env);
-	print_coord(env);
-	sleep(40);
+	i = 0;
+	split = ft_strsplit(env.array[i], ' ');
+	env.x = count_tab(split);
+	free(split);
+	if (!(env.map = malloc(sizeof(int**) * env.y)))
+		error(ERRALLOC);
+	while (i < env.y)
+	{
+		split = ft_strsplit(env.array[i], ' ');
+		x_tmp = count_tab(split);
+		if (x_tmp < env.x)
+			error(ERRLINE);
+		tmp = split_to_tmp(split);
+		env.map[i] = tmp;
+		i++;
+	}
 	return (env);
 }
 
@@ -107,8 +84,8 @@ t_env	parse_file(char *file)
 	t_env	env;
 
 	count = 0;
-	env.width = count_line_file(file);
-	if (!(env.array = malloc(sizeof(int**) * env.width)))
+	env.y = count_line_file(file);
+	if (!(env.array = malloc(sizeof(int**) * env.y + 1)))
 		error(ERRALLOC);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)

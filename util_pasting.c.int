@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   util_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/09 14:52:50 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 20:57:46 by vafanass         ###   ########.fr       */
+/*   Created: 2017/01/11 12:40:00 by vafanass          #+#    #+#             */
+/*   Updated: 2017/01/11 13:51:42 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int main(int argc, char **argv)
+void	free_array(char **array)
 {
-	t_env	env;
+	int i;
+	int j;
 
-	if (argc != 2)
-		error(ERRARG);
-	env = parse_file(argv[1]);
-	exit(0);	
-	display_window(env);
+	j = 0;
+	i = count_tab(array);
+	while (j < i)
+	{
+		free(array[j]);
+		j++;
+	}
+	free(array);
+}
 
-	free_map(env);
-	free_array(env.array);
-	exit(0);
+void	free_map(t_env env)
+{
+	int	j;
+
+	j = 0;
+	while (j < env.y)
+	{
+		free(env.map[j]);
+		j++;
+	}
+	free(env.map);
 }

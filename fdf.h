@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 16:55:39 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/11 20:57:59 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,22 @@
  ** Typedef Here
  */
 
+typedef struct	s_point
+{
+	int			x;
+	int			y;
+	int			z;
+	int			color;
+}				t_point;
+
 typedef struct	s_env
 {
 	void		*mlx;
 	void		*win;
-	int			**map;
-	int			x;
-	int			y;
+	t_point		*map;
+	int			length;
+	int			width;
+	int			size;
 	char		**array;
 
 }				t_env;

@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 14:56:19 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/11 16:55:39 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,10 @@
  ** Typedef Here
  */
 
-typedef struct	s_data
-{
-	void		*mlx_ptr;
-	void		*mlx_win;
-}				t_data;
-
 typedef struct	s_env
 {
+	void		*mlx;
+	void		*win;
 	int			**map;
 	int			x;
 	int			y;
@@ -37,9 +33,10 @@ typedef struct	s_env
  */
 
 # define ERRARG "Error: wrong number of arguments.\nUsage : ./fdf [map]\n"
-# define ERRALLOC "Error : malloc failed\n"
-# define ERRLINE "Wrong line length in the file passed in parameter"
-# define ERRFD "Error with the file descriptor"
+# define ERRALLOC "Error : malloc failed. Exiting.\n"
+# define ERRLINE "Wrong line length in the file passed in parameter. Exiting\n"
+# define ERRFD "Error with the file descriptor. Exiting.\n"
+# define ERRMLX "Error with mlx\n"
 
 /*
  ** Mandatory Library 
@@ -71,4 +68,5 @@ void	aff_tabchar(char **tab);
 void	aff_tabint(int **tab, int x, int y);
 void    free_array(char **array);
 void    free_map(t_env env);
+void    display_window(t_env env);
 #endif

@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 14:56:24 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/11 18:41:53 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		*split_to_tmp(char **split)
 
 	j = 0;
 	i = count_tab(split);
-	if(!(tmp = malloc(sizeof(int) * count_tab(split))))
+	if (!(tmp = malloc(sizeof(int) * count_tab(split))))
 		error(ERRALLOC);
 	while (i--)
 	{
@@ -51,18 +51,24 @@ int		*split_to_tmp(char **split)
 }
 
 t_env	array_to_int(t_env env)
-{	
-	int	*tmp;
+{
+	int		*tmp;
 	char	**split;
 	int		i;
+	int		x_tmp;
 
 	i = 0;
-	if(!(env.map = malloc(sizeof(int**) * env.y)))
-		error(ERRALLOC);	
+	split = ft_strsplit(env.array[i], ' ');
+	env.x = count_tab(split);
+	free(split);
+	if (!(env.map = malloc(sizeof(int**) * env.y)))
+		error(ERRALLOC);
 	while (i < env.y)
 	{
 		split = ft_strsplit(env.array[i], ' ');
-		env.x = count_tab(split);
+		x_tmp = count_tab(split);
+		if (x_tmp < env.x)
+			error(ERRLINE);
 		tmp = split_to_tmp(split);
 		env.map[i] = tmp;
 		i++;
@@ -79,14 +85,14 @@ t_env	parse_file(char *file)
 
 	count = 0;
 	env.y = count_line_file(file);
-	if(!(env.array = malloc(sizeof(int**) * env.y + 1)))
+	if (!(env.array = malloc(sizeof(int**) * env.y + 1)))
 		error(ERRALLOC);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error(ERRFD);
 	while (get_next_line(fd, &line) == 1)
 	{
-		if(!(env.array[count] = malloc(sizeof(char*) * ft_strlen(line) + 1)))
+		if (!(env.array[count] = malloc(sizeof(char*) * ft_strlen(line) + 1)))
 			error(ERRALLOC);
 		strcpy(env.array[count], line);
 		count++;

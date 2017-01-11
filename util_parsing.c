@@ -1,58 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility.c                                          :+:      :+:    :+:   */
+/*   util_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/09 15:06:53 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 13:29:50 by vafanass         ###   ########.fr       */
+/*   Created: 2017/01/11 12:40:00 by vafanass          #+#    #+#             */
+/*   Updated: 2017/01/11 13:51:42 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	error(char *error)
-{
-	ft_putstr_fd(error, 2);
-	exit(1);
-}
-
-void	aff_tabint(int **tab, int x, int y)
+void	free_array(char **array)
 {
 	int i;
 	int j;
 
-	i = 0;
-	while (i < y)
+	j = 0;
+	i = count_tab(array);
+	while (j < i)
 	{
-		j = 0;
-		while (j < x)
-		{
-			ft_putnbr(tab[i][j]);
-			ft_putchar(' ');
-			j++;
-		}
-		ft_putchar('\n');
-		i++;
+		free(array[j]);
+		j++;
 	}
+	free(array);
 }
 
-void	aff_tabchar(char **tab)
+void	free_map(t_env env)
 {
-	int	i;
+	int	j;
 
-	i = -1;
-	while (tab[++i])
-		ft_putendl(tab[i]);
-}
-
-int		count_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
-		++i;
-	return (i);
+	j = 0;
+	while (j < env.y)
+	{
+		free(env.map[j]);
+		j++;
+	}
+	free(env.map);
 }

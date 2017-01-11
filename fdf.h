@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/10 17:35:14 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/11 14:56:19 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef struct	s_env
 	int			**map;
 	int			x;
 	int			y;
-	int			line;
 	char		**array;
+
 }				t_env;
 
 /*
@@ -37,6 +37,10 @@ typedef struct	s_env
  */
 
 # define ERRARG "Error: wrong number of arguments.\nUsage : ./fdf [map]\n"
+# define ERRALLOC "Error : malloc failed\n"
+# define ERRLINE "Wrong line length in the file passed in parameter"
+# define ERRFD "Error with the file descriptor"
+
 /*
  ** Mandatory Library 
  */
@@ -61,9 +65,10 @@ typedef struct	s_env
  */
 
 t_env	parse_file(char *file);
-void	print_error(char *error);
+void	error(char *error);
 int		count_tab(char **tab);
 void	aff_tabchar(char **tab);
 void	aff_tabint(int **tab, int x, int y);
-
+void    free_array(char **array);
+void    free_map(t_env env);
 #endif

@@ -16,7 +16,8 @@ CC = gcc
 CFLAG = -Wall -Werror -Wextra
 SRCS = main.c \
 	   parse_file.c \
-	   utility.c
+	   utility.c \
+	   util_parsing.c
 OBJS = $(SRCS:.c=.o)
 INCLUDE = -I libft/includes -I ./minilibx_el_capitan
 LINCLUDE = -I libft/includes -L libft/ -lft -I ./minilibx_el_capitan \

@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/10 17:47:36 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/11 14:56:24 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		count_line_file(char *file)
 	result = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		print_error(ERRARG);
+		error(ERRFD);
 	while (get_next_line(fd, &line) == 1)
 	{
 		result++;
@@ -39,29 +39,31 @@ int		*split_to_tmp(char **split)
 
 	j = 0;
 	i = count_tab(split);
-	tmp = malloc(sizeof(int) * count_tab(split));
+	if(!(tmp = malloc(sizeof(int) * count_tab(split))))
+		error(ERRALLOC);
 	while (i--)
 	{
 		tmp[j] = ft_atoi(split[j]);
 		j++;
 	}
+	free_array(split);
 	return (tmp);
 }
 
-
-// voir les leaks ici
 t_env	array_to_int(t_env env)
-{
+{	
 	int	*tmp;
-	int	i;
+	char	**split;
+	int		i;
 
 	i = 0;
-	env.map = malloc(sizeof(int**) * env.y);
+	if(!(env.map = malloc(sizeof(int**) * env.y)))
+		error(ERRALLOC);	
 	while (i < env.y)
 	{
-		env.x = count_tab(ft_strsplit(env.array[i], ' '));
-		tmp = split_to_tmp(ft_strsplit(env.array[i], ' '));
-		env.map[i] = malloc(sizeof(int*) * env.x);
+		split = ft_strsplit(env.array[i], ' ');
+		env.x = count_tab(split);
+		tmp = split_to_tmp(split);
 		env.map[i] = tmp;
 		i++;
 	}
@@ -77,13 +79,15 @@ t_env	parse_file(char *file)
 
 	count = 0;
 	env.y = count_line_file(file);
-	env.array = malloc(sizeof(int**) * env.y + 1);
+	if(!(env.array = malloc(sizeof(int**) * env.y + 1)))
+		error(ERRALLOC);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		print_error(ERRARG);
+		error(ERRFD);
 	while (get_next_line(fd, &line) == 1)
 	{
-		env.array[count] = malloc(sizeof(char*) * ft_strlen(line) + 1);
+		if(!(env.array[count] = malloc(sizeof(char*) * ft_strlen(line) + 1)))
+			error(ERRALLOC);
 		strcpy(env.array[count], line);
 		count++;
 		free(line);
@@ -91,6 +95,5 @@ t_env	parse_file(char *file)
 	close(fd);
 	env.array[count] = NULL;
 	env = array_to_int(env);
-	free(env.array);
 	return (env);
 }

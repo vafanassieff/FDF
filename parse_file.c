@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 21:05:57 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/12 14:09:45 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,51 +31,25 @@ int		count_line_file(char *file)
 	return (result);
 }
 
-void	print_coord(t_env env)
+t_env	split_to_table(t_env env, int i, int count)
 {
-	int all;
-	int	i;
-
-	all = env.width * env.length;
-	i = 0;
-	ft_putendl("x y z   color");
-	while (i < all)
-	{
-		ft_putnbr(env.map[i].x);
-		ft_putchar(' ');
-		ft_putnbr(env.map[i].y);
-		ft_putchar(' ');
-		ft_putnbr(env.map[i].z);
-		ft_putchar(' ');
-		ft_putnbr(env.map[i].color);
-		ft_putchar('\n');
-		i++;
-	}
-}
-
-t_env	split_to_table(t_env env)
-{
-	t_point	tmp;
 	char	**split;
-	int		i;
 	int		j;
-	int		count;
+	int		x_tmp;
 
-	i = 0;
-	count = 0;
-	if (!(env.map = malloc(sizeof(t_point) * env.size)))
-		error(ERRALLOC);
 	while (i < env.width)
 	{
 		split = ft_strsplit(env.array[i], ' ');
+		x_tmp = count_tab(split);
+		if (x_tmp < env.length)
+			error(ERRLINE);
 		j = 0;
 		while (j < env.length)
 		{
-			tmp.x = j;
-			tmp.y = i;
-			tmp.z = ft_atoi(split[j]);
-			tmp.color = 0x00FFFFFF; //Bosse sur un moyen de recup la couleur (z,couleur)
-			env.map[count] = tmp;
+			env.map[count].x = j;
+			env.map[count].y = i;
+			env.map[count].z = ft_atoi(split[j]);
+			env.map[count].color = 0x00FFFFFF;
 			j++;
 			count++;
 		}
@@ -93,9 +67,9 @@ t_env	array_to_int(t_env env)
 	env.length = count_tab(split);
 	free_array(split);
 	env.size = env.length * env.width;
-	env = split_to_table(env);
-	print_coord(env);
-	sleep(40);
+	if (!(env.map = malloc(sizeof(t_point) * env.size)))
+		error(ERRALLOC);
+	env = split_to_table(env, 0, 0);
 	return (env);
 }
 
@@ -124,5 +98,6 @@ t_env	parse_file(char *file)
 	close(fd);
 	env.array[count] = NULL;
 	env = array_to_int(env);
+	env.name = file;
 	return (env);
 }

@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:52:50 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 20:57:46 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/12 15:58:55 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,9 @@
 int main(int argc, char **argv)
 {
 	t_env	env;
-
 	if (argc != 2)
 		error(ERRARG);
 	env = parse_file(argv[1]);
-	exit(0);	
 	display_window(env);
-
-	free_map(env);
-	free_array(env.array);
 	exit(0);
 }

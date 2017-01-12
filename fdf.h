@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 20:57:59 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/12 15:59:02 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 typedef struct	s_point
 {
-	int			x;
-	int			y;
-	int			z;
+	double			x;
+	double			y;
+	double			z;
 	int			color;
 }				t_point;
 
@@ -30,11 +30,12 @@ typedef struct	s_env
 	void		*mlx;
 	void		*win;
 	t_point		*map;
+	t_point		*coord;
 	int			length;
 	int			width;
 	int			size;
 	char		**array;
-
+	char		*name;
 }				t_env;
 
 /*
@@ -69,6 +70,8 @@ typedef struct	s_env
 /*
  ** Oublie pas de les delete les bails en trop
  */
+
+void	print_coord(t_env env);
 
 t_env	parse_file(char *file);
 void	error(char *error);

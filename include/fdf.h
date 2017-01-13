@@ -6,12 +6,15 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/12 15:59:02 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/13 18:17:44 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+
+# define SCREEN_X 1920
+# define SCREEN_Y 1080
 
 /*
  ** Typedef Here
@@ -25,12 +28,23 @@ typedef struct	s_point
 	int			color;
 }				t_point;
 
+typedef	struct	s_color
+{
+	char			r;
+	char			g;
+	char			b;
+}				t_color;
+
 typedef struct	s_env
 {
 	void		*mlx;
 	void		*win;
+	void		*img_ptr;
+	char		*img;
+	int			space;
 	t_point		*map;
 	t_point		*coord;
+	t_color		color;
 	int			length;
 	int			width;
 	int			size;

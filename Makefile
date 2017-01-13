@@ -14,25 +14,27 @@ NAME = fdf
 HEADER = fdf.h
 CC = gcc
 CFLAG = -Wall -Werror -Wextra
-SRCS = main.c \
+SRC_NAME = main.c \
 	   parse_file.c \
 	   utility.c \
 	   util_parsing.c \
 	   display.c
-OBJS = $(SRCS:.c=.o)
-INCLUDE = -I libft/includes -I ./minilibx_el_capitan
-LINCLUDE = -I libft/includes -L libft/ -lft -I ./minilibx_el_capitan \
-	-g -L ./minilibx_el_capitan  -l mlx -framework OpenGL -framework AppKit
+SRC_PATH = src
+SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+OBJS = $(SRC_NAME:.c=.o)
+INCLUDE = -Iinclude -I lib/libft/includes -I lib//minilibx_el_capitan
+LINCLUDE = -I lib/libft/includes -L lib/libft/ -lft -I lib/minilibx_el_capitan \
+	-g -L lib/minilibx_el_capitan  -l mlx -framework OpenGL -framework AppKit
 
-MAKELIB= make -C libft/ && make -s -C minilibx_el_capitan
-CLEANLIB= make fclean -C libft/ && make clean -C minilibx_el_capitan
+MAKELIB= make -C lib/libft/ && make -s -C lib/minilibx_el_capitan
+CLEANLIB= make fclean -C lib/libft/ && make clean -C lib/minilibx_el_capitan
 
 all: $(NAME)
 
 $(NAME):
 	@$(CLEANLIB)
 	@$(MAKELIB)
-	@$(CC) -c $(CFLAG) -I fdf.h $(INCLUDE) $(SRCS) 
+	@$(CC) -c $(CFLAG) $(INCLUDE) $(SRC) 
 	@$(CC) $(CFLAG) -o $(NAME) $(LINCLUDE) $(OBJS)
 
 clean:

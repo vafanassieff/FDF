@@ -18,7 +18,9 @@ SRC_NAME = main.c \
 	   parse_file.c \
 	   utility.c \
 	   util_parsing.c \
-	   display.c
+	   display.c \
+	   key_event.c
+
 SRC_PATH = src
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 OBJS = $(SRC_NAME:.c=.o)

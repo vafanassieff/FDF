@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/13 18:17:44 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/14 19:22:19 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define SCREEN_X 1920
 # define SCREEN_Y 1080
+# define SPACE 4
 
 /*
  ** Typedef Here
@@ -41,6 +42,9 @@ typedef struct	s_env
 	void		*win;
 	void		*img_ptr;
 	char		*img;
+	int			img_bpp;
+	int			img_endian;
+	int			img_size;
 	int			space;
 	t_point		*map;
 	t_point		*coord;
@@ -50,12 +54,13 @@ typedef struct	s_env
 	int			size;
 	char		**array;
 	char		*name;
+	double		alpha;
+	double		beta;
 }				t_env;
 
 /*
  ** Error Message
  */
-
 # define ERRARG "Error: wrong number of arguments.\nUsage : ./fdf [map]\n"
 # define ERRALLOC "Error : malloc failed. Exiting.\n"
 # define ERRLINE "Wrong line length in the file passed in parameter. Exiting\n"
@@ -95,4 +100,6 @@ void	aff_tabint(int **tab, int x, int y);
 void    free_array(char **array);
 void    free_map(t_env env);
 void    display_window(t_env env);
+void	display_img(t_env env);
+int		key_hook(int keycode, t_env *env);
 #endif

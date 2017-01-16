@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/14 19:22:19 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/16 17:03:04 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,30 @@ typedef struct	s_point
 	int			color;
 }				t_point;
 
+typedef struct	s_coord
+{
+	int				x;
+	int				y;
+}				t_coord;
+
 typedef	struct	s_color
 {
 	char			r;
 	char			g;
 	char			b;
 }				t_color;
+
+typedef	struct s_line
+{
+	int			steep;
+	int			xfinal;
+	int			dx;
+	int			dy;
+	int			derror;
+	int			error;
+	int			x;
+	int			y;
+}				t_line;
 
 typedef struct	s_env
 {

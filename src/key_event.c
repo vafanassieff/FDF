@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 14:36:22 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/14 19:22:21 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/16 16:06:39 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 void	scale_plus(t_env *env)
 {
-	env->space = env->space + SPACE;
+	env->space = env->space * 2;
 	display_img(*env);
 }
 
 void	scale_minus(t_env *env)
 {
 	if (env->space > SPACE)
-		env->space = env->space - SPACE;
+		env->space = env->space / 2;
+	else 
+		return ;
 	display_img(*env);
 }
 

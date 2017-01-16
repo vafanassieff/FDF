@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/12 14:09:45 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/16 16:56:35 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ t_env	split_to_table(t_env env, int i, int count)
 t_env	array_to_int(t_env env)
 {
 	char **split;
-
-	split = ft_strsplit(env.array[0], ' ');
+	
+	split = ft_strsplit(env.array[0], ' ');	
 	env.length = count_tab(split);
 	free_array(split);
 	env.size = env.length * env.width;
@@ -82,7 +82,7 @@ t_env	parse_file(char *file)
 
 	count = 0;
 	env.width = count_line_file(file);
-	if (!(env.array = malloc(sizeof(int**) * env.width)))
+	if (!(env.array = malloc(sizeof(char**) * env.width + 1)))
 		error(ERRALLOC);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
@@ -91,7 +91,7 @@ t_env	parse_file(char *file)
 	{
 		if (!(env.array[count] = malloc(sizeof(char*) * ft_strlen(line) + 1)))
 			error(ERRALLOC);
-		strcpy(env.array[count], line);
+		env.array[count] = ft_strcpy(env.array[count], line);
 		count++;
 		free(line);
 	}

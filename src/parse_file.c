@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/16 16:56:35 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/17 19:00:50 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_env	split_to_table(t_env env, int i, int count)
 		j = 0;
 		while (j < env.length)
 		{
-			env.map[count].x = j;
-			env.map[count].y = i;
-			env.map[count].z = ft_atoi(split[j]);
-			env.map[count].color = 0x00FFFFFF;
+			env.original[count].x = j;
+			env.original[count].y = i;
+			env.original[count].z = ft_atoi(split[j]);
+			env.original[count].color = 0x00FFFFFF;
 			j++;
 			count++;
 		}
@@ -67,7 +67,7 @@ t_env	array_to_int(t_env env)
 	env.length = count_tab(split);
 	free_array(split);
 	env.size = env.length * env.width;
-	if (!(env.map = malloc(sizeof(t_point) * env.size)))
+	if (!(env.original = malloc(sizeof(t_point) * env.size)))
 		error(ERRALLOC);
 	env = split_to_table(env, 0, 0);
 	return (env);

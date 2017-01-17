@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/17 14:00:29 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/17 19:00:52 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # define SCREEN_X 1920
 # define SCREEN_Y 1080
 # define SPACE 2
-
+# define TEST_X 500
+# define TEST_Y 100
 /*
  ** Typedef Here
  */
@@ -62,22 +63,23 @@ typedef struct	s_env
 {
 	void		*mlx;
 	void		*win;
-	void		*img_ptr;
+	void		*iptr;
 	char		*img;
-	int			img_bpp;
-	int			img_endian;
-	int			img_size;
+	int			bpp;
+	int			endian;
+	int			isize;
+	int			put;
 	int			space;
+	t_point		*original;
 	t_point		*map;
 	t_point		*coord;
+	t_point		translation;
 	t_color		color;
 	int			length;
 	int			width;
 	int			size;
 	char		**array;
 	char		*name;
-	double		alpha;
-	double		beta;
 }				t_env;
 
 /*
@@ -122,10 +124,10 @@ void	aff_tabint(int **tab, int x, int y);
 void    free_array(char **array);
 void    free_map(t_env env);
 void    display_window(t_env env);
-void	display_img(t_env env);
+void	display_img(t_env env, int count);
 int		key_hook(int keycode, t_env *env);
 t_color hex_to_rgb(int color);
 void    put_pixel(int xtest, t_env env);
 t_coord space_to_iso(t_point here, t_env env);
-
+int     test_coord(t_coord c);
 #endif

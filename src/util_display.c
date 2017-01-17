@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/17 12:57:41 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/17 13:00:00 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/17 18:39:06 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,17 @@ t_coord space_to_iso(t_point here, t_env env)
 
 	alpha = M_PI/180 * 0;
 	beta =  M_PI/180 * 0;
-
 	coord.x = (here.x * cos(alpha)) - (here.y * cos(beta));
 	coord.y = (-here.z)  + (here.x * sin(alpha)) + (here.y * cos(beta));
-
 	coord.x = coord.x * env.space;
 	coord.y = coord.y * env.space;
 	return (coord);
+}
+
+int		test_coord(t_coord c)
+{
+	if (c.x <= SCREEN_X - TEST_X && c.x >= - TEST_X && c.y <= SCREEN_Y - TEST_Y
+			&& c.y >= - TEST_Y)
+		return (0);
+	return (1);
 }

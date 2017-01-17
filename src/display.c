@@ -6,97 +6,78 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 15:48:25 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/16 17:03:02 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/17 14:00:24 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_color	hex_to_rgb(int color)
+void line_bis(t_line l, t_env env)
 {
-	t_color	ret;
-
-	ret.r = color & 0xff;
-	ret.g = (color>>8) & 0xff;
-	ret.b = (color>>16) & 0xff;
-
-	return (ret);
+	while(l.x <= l.vx)
+	{
+		if (l.steep)
+		{
+			l.xfinal = (l.x + 500) * 4 + (l.y + 300) * env.img_size;
+			if (l.xfinal < env.img_size * SCREEN_Y)
+				put_pixel(l.xfinal, env);
+		}
+		else
+		{
+			l.xfinal = (l.y + 500) * 4 + (l.x + 300) * env.img_size;
+			if (l.xfinal < env.img_size * SCREEN_Y)
+				put_pixel(l.xfinal, env);
+		}
+		l.error += l.derror;
+		if (l.error > l.dx)
+		{
+			if (l.vy > l.uy)
+				l.y++;
+			else
+				l.y--;
+			l.error -= l.dx * 2;
+		}
+		l.x++;
+	}
 }
-void	put_pixel(int xtest, t_env env)
-{
-	ft_memset(&env.img[0 + xtest], env.color.b, 1);
-	ft_memset(&env.img[1 + xtest], env.color.g, 1);
-	ft_memset(&env.img[2 + xtest], env.color.r, 1);
-}
 
-void line(int x0, int y0, int x1, int y1, t_env env) 
-//void line(t_coord u, t_coord v, t_env env)
+void line(t_coord u, t_coord v, t_env env)
 {
 	t_line l;
 
 	l.steep = 1;
-
-	if (ft_abs(x0-x1) < ft_abs(y0-y1)) 
+	if (ft_abs(u.x - v.x) < ft_abs(u.y - v.y)) 
 	{ 
-		ft_swap(&x0, &y0); 
-		ft_swap(&x1, &y1); 
+		ft_swap(&u.x, &u.y); 
+		ft_swap(&v.x, &v.y); 
 		l.steep = 0; 
 	} 
-	if (x0>x1) 
+	if (u.x > v.x) 
 	{ 
-		ft_swap(&x0, &x1); 
-		ft_swap(&y0, &y1); 
+		ft_swap(&u.x, &v.x); 
+		ft_swap(&u.y, &v.y); 
 	} 
-	l.dx = x1-x0; 
-	l.dy = y1-y0; 
-	l.derror = ft_abs(l.dy)*2; 
-	l.error = 0; 
-	l.y = y0; 
-	for (l.x=x0; l.x<=x1; l.x++) 
-	{
-		if (l.steep) 
-		{
-			l.xfinal = (l.x + 500) * 4 + (l.y + 300) * env.img_size;
-			put_pixel(l.xfinal, env);
-		} 
-		else 
-		{ 
-			l.xfinal = (l.y + 500) * 4 + (l.x + 300) * env.img_size;
-			put_pixel(l.xfinal, env);
-		} 
-		l.error += l.derror; 
-		if (l.error > l.dx) 
-		{ 
-			l.y += (y1>y0?1:-1); 
-			l.error -= l.dx*2; 
-		} 
-	} 
+	l.dx = v.x - u.x; 
+	l.dy = v.y - u.y; 
+	l.derror = ft_abs(l.dy) * 2; 
+	l.error = 0;
+	l.y = u.y;
+	l.x = u.x;
+	l.vx = v.x;
+	l.vy = v.y;
+	l.uy = u .y;
+	line_bis(l, env);
 } 
-
-t_coord space_to_iso(t_point here, t_env env)
-{
-	t_coord	coord;
-	double	alpha;
-	double	beta;
-
-	alpha = M_PI/180 * 0;
-	beta =  M_PI/180 * 0;
-
-	coord.x = (here.x * cos(alpha)) - (here.y * cos(beta));
-	coord.y = (-here.z)  + (here.x * sin(alpha)) + (here.y * cos(beta));
-
-	coord.x = coord.x * env.space;
-	coord.y = coord.y * env.space;
-	return (coord);
-}
 
 void	display_img(t_env env)
 {
 	int count;
 	int i;
 	t_coord *c;
+
 	count = 0;
-	c = malloc(sizeof(t_coord) * 3);
+	if(!(c = malloc(sizeof(t_coord) * 3)))
+		error(ERRALLOC);
 	if(!(env.img_ptr = mlx_new_image(env.mlx, SCREEN_X, SCREEN_Y)))
 		error(ERRMLX);
 	env.img = mlx_get_data_addr(env.img_ptr, &env.img_bpp, &env.img_size, 
@@ -110,9 +91,9 @@ void	display_img(t_env env)
 		if (count + env.length < env.size)
 			c[2] = space_to_iso(env.map[count + env.length], env);
 		if (env.map[count].x < env.length - 1)
-			line(c[0].x , c[0].y, c[1].x, c[1].y, env);
+			line(c[0], c[1], env);
 		if (env.map[count].y < env.width - 1)
-			line(c[0].x, c[0].y, c[2].x, c[2].y, env);
+			line(c[0], c[2], env);
 		count++;
 	}
 	i = mlx_put_image_to_window(env.mlx, env.win,env.img_ptr, 0, 0);

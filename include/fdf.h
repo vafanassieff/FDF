@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 23:05:57 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/16 17:03:04 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/17 14:00:29 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define SCREEN_X 1920
 # define SCREEN_Y 1080
-# define SPACE 4
+# define SPACE 2
 
 /*
  ** Typedef Here
@@ -52,6 +52,10 @@ typedef	struct s_line
 	int			error;
 	int			x;
 	int			y;
+	int			vx;
+	int			vy;
+	int			uy;
+
 }				t_line;
 
 typedef struct	s_env
@@ -120,4 +124,8 @@ void    free_map(t_env env);
 void    display_window(t_env env);
 void	display_img(t_env env);
 int		key_hook(int keycode, t_env *env);
+t_color hex_to_rgb(int color);
+void    put_pixel(int xtest, t_env env);
+t_coord space_to_iso(t_point here, t_env env);
+
 #endif

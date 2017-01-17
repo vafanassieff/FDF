@@ -19,7 +19,8 @@ SRC_NAME = main.c \
 	   utility.c \
 	   util_parsing.c \
 	   display.c \
-	   key_event.c
+	   key_event.c \
+	   util_display.c
 
 SRC_PATH = src
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))

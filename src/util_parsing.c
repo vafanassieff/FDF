@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 12:40:00 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/16 14:32:55 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/19 18:05:55 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,3 @@ void	free_array(char **array)
 	}
 	free(array);
 }
-
-//void	free_map(t_env env)
-//{
-//	int	j;
-//
-//	j = 0;
-//	while (j < env.y)
-//	{
-//		free(env.map[j]);
-//		j++;
-//	}
-//	free(env.map);
-//}

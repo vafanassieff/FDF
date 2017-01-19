@@ -6,15 +6,13 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 13:49:26 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/14 14:40:27 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/19 16:43:58 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MLX_KEY_OSX_H
 # define MLX_KEY_OSX_H
 
-# define StructureNotifyMask (1L<<17)
-# define DestroyNotify		17
 # define KEY_ESCAPE         53
 # define KEY_F1             122
 # define KEY_F2             120

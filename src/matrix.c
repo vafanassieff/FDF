@@ -1,41 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_parsing.c                                     :+:      :+:    :+:   */
+/*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/11 12:40:00 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/11 13:51:42 by vafanass         ###   ########.fr       */
+/*   Created: 2017/01/19 18:05:36 by vafanass          #+#    #+#             */
+/*   Updated: 2017/01/19 18:05:40 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
 
-void	free_array(char **array)
-{
-	int i;
-	int j;
-
-	j = 0;
-	i = count_tab(array);
-	while (j < i)
-	{
-		free(array[j]);
-		j++;
-	}
-	free(array);
-}
-
-void	free_map(t_env env)
-{
-	int	j;
-
-	j = 0;
-	while (j < env.y)
-	{
-		free(env.map[j]);
-		j++;
-	}
-	free(env.map);
-}

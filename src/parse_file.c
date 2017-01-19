@@ -6,7 +6,7 @@
 /*   By: vafanass <vafanass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:56:47 by vafanass          #+#    #+#             */
-/*   Updated: 2017/01/17 19:00:50 by vafanass         ###   ########.fr       */
+/*   Updated: 2017/01/19 15:55:06 by vafanass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ int		count_line_file(char *file)
 	int		fd;
 	char	*line;
 	int		result;
+	int		ret;
 
 	result = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error(ERRFD);
-	while (get_next_line(fd, &line) == 1)
+	while ((ret = get_next_line(fd, &line)))
 	{
+		if (ret == -1)
+			error(ERRTYPE);
 		result++;
 		free(line);
 	}
@@ -62,8 +65,8 @@ t_env	split_to_table(t_env env, int i, int count)
 t_env	array_to_int(t_env env)
 {
 	char **split;
-	
-	split = ft_strsplit(env.array[0], ' ');	
+
+	split = ft_strsplit(env.array[0], ' ');
 	env.length = count_tab(split);
 	free_array(split);
 	env.size = env.length * env.width;
